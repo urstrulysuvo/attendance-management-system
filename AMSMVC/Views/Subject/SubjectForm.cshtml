@@ -1,0 +1,45 @@
+﻿@model AMSMVC.ViewModels.SubjectFormViewModel
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<br />
+<br />
+<br />
+<div class="ui two item stackable tabs menu" style="max-width: 420px">
+    @Html.ActionLink("Manage Subjects", "Index", "Subject", null, new { @class = "item" })
+    <a class="active item" data-tab="">@Model.Title</a>
+</div>
+<br />
+
+@using (Html.BeginForm("Save", "Subject"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Subject.SubjectName)
+        @Html.TextBoxFor(m => m.Subject.SubjectName, new { @class = "form-control", style = "max-width: 30rem", placeholder = "Enter Name" })
+        @Html.ValidationMessageFor(m => m.Subject.SubjectName)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Subject.SubjectCode)
+        @Html.TextBoxFor(m => m.Subject.SubjectCode, new { @class = "form-control", style = "max-width: 30rem", placeholder = "Enter Subject Code" })
+        @Html.ValidationMessageFor(m => m.Subject.SubjectCode)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Subject.ClassId)
+        @Html.DropDownListFor(m => m.Subject.ClassId, new SelectList(Model.Classes, "ClassId", "ClassName"), "Select Class", new { @class = "form-control", style = "max-width: 30rem" })
+        @Html.ValidationMessageFor(m => m.Subject.ClassId)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Subject.DepartmentId)
+        @Html.DropDownListFor(m => m.Subject.DepartmentId, new SelectList(Model.Departments, "DepartmentId", "DepartmentName"), "Select Department", new { @class = "form-control", style = "max-width: 30rem" })
+        @Html.ValidationMessageFor(m => m.Subject.DepartmentId)
+    </div>
+    @Html.HiddenFor(m => m.Subject.SubjectId)
+    @Html.AntiForgeryToken();
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,21 @@
+﻿@model AMSMVC.Models.Teacher
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<br />
+<br />
+<br />
+<div class="ui two item stackable tabs menu" style="max-width: 420px">
+    @Html.ActionLink("Back", "Index", "Teacher", null, new { @class = "item" })
+    <a class="active item" data-tab="">Details</a>
+</div>
+<h3>@Model.TeacherName</h3>
+<hr class="my-2">
+<tr class="table-active">
+    <th>
+        <p class="lead">Student ID : @Model.TeacherId</p>
+        <p class="lead">Department : @Model.Department.DepartmentName</p>
+        <p class="lead">Email Address : @Model.TeacherEmailId</p>
+    </th>
+</tr>

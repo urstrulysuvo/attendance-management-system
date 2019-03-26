@@ -1,0 +1,63 @@
+﻿@model AMSMVC.ViewModels.AdminAttendancesViewModel
+@{
+    ViewBag.Title = "Attendance Report";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<br />
+<br />
+<br />
+<div class="ui two item stackable tabs menu" style="max-width: 420px">
+    @Html.ActionLink("Back", "Index", "Attendance", null, new { @class = "item" })
+    <a class="active item" data-tab="">Class @Model.ClassInfo.ClassName</a>
+</div>
+<br />
+<div class="container-fluid">
+    <table id="students" class="ui celled table" style="width:100%">
+        <thead style="background-color:lightsteelblue">
+            <tr style="color:white">
+                <th>R#</th>
+                <th>Student Name</th>
+                @for (int i = 0; i < Model.Subjects.Count; i++)
+                {
+                    <th>
+                        @Model.Subjects[i].SubjectCode
+                        (
+                        @Model.TotalAttendanceForSubject[i]
+                        )
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.AttendanceViews.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Model.AttendanceViews[i].Student.RollNo
+                    </td>
+                    <td>
+                        @Model.AttendanceViews[i].Student.StudentName
+                    </td>
+                    @for (int j = 0; j < Model.Subjects.Count; j++)
+                    {
+                        <td>
+                            @Model.AttendanceViews[i].AttendanceCount[j]
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<br />
+<br />
+<br />
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#students').DataTable();
+        });
+    </script>
+}

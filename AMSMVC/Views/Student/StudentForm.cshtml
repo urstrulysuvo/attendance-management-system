@@ -1,0 +1,45 @@
+﻿@model AMSMVC.ViewModels.StudentFormViewModel
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<br />
+<br />
+<br />
+<div class="ui two item stackable tabs menu" style="max-width: 420px">
+    @Html.ActionLink("Manage Students", "Index", "Student", null, new { @class = "item" })
+    <a class="active item" data-tab="">@Model.Title</a>
+</div>
+<br />
+
+@using (Html.BeginForm("Save", "Student"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Student.StudentName)
+        @Html.TextBoxFor(m => m.Student.StudentName, new { @class = "form-control", style = "max-width: 30rem", placeholder = "Enter Name" })
+        @Html.ValidationMessageFor(m => m.Student.StudentName)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Student.ClassId)
+        @Html.DropDownListFor(m => m.Student.ClassId, new SelectList(Model.Classes, "ClassId", "ClassName"), "Select Class", new { @class = "form-control", style = "max-width: 30rem" })
+        @Html.ValidationMessageFor(m => m.Student.ClassId)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Student.RollNo)
+        @Html.TextBoxFor(m => m.Student.RollNo, new { @class = "form-control", style = "max-width: 30rem", placeholder = "Enter Roll Number" })
+        @Html.ValidationMessageFor(m => m.Student.RollNo)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Student.StudentEmailId)
+        @Html.TextBoxFor(m => m.Student.StudentEmailId, new { @class = "form-control", style = "max-width: 30rem", type = "email", placeholder = "Enter Email ID" })
+        @Html.ValidationMessageFor(m => m.Student.StudentEmailId)
+    </div>
+    @Html.HiddenFor(m => m.Student.StudentId)
+    @Html.AntiForgeryToken();
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

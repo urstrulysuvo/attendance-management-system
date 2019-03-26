@@ -1,0 +1,25 @@
+﻿@model AMSMVC.ViewModels.TeacherSubjectViewModel
+@{
+    ViewBag.Title = "Attendance";
+    Layout = "~/Views/Shared/_LayoutStaff.cshtml";
+}
+<br />
+<br />
+<br />
+<div class="ui one item stackable tabs menu" style="max-width: 210px">
+    <a class="active item" data-tab="">@Model.Teacher.TeacherName</a>
+</div>
+@using (@Html.BeginForm("Select", "Attendance", new {  @class="was-validated"}))
+{
+    <div class="form-group">
+        <label>Select subject for Attendance</label>
+        @Html.DropDownListFor(m => m.Subject.SubjectId, new SelectList(Model.Subjects, "SubjectId", "SubjectName"), "Select Subject", new { @class = "form-control", required="required", style = "max-width: 30rem" })
+    </div>
+    @Html.HiddenFor(m => m.Teacher.TeacherId)
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Next</button>
+}
+
+<br />
+<br />
+<br />

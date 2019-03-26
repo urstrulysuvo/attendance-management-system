@@ -1,0 +1,26 @@
+﻿@model AMSMVC.ViewModels.SelectClassViewModel
+@{
+    ViewBag.Title = "Attendance";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<br />
+<br />
+<br />
+<div class="ui one item stackable tabs menu" style="max-width: 210px">
+    <a class="active item" data-tab="">Attendance</a>
+</div>
+<br />
+
+@using (Html.BeginForm("ViewAttendaces", "Attendance"))
+{
+    <div class="form-group">
+        @Html.DropDownListFor(m => m.SelectedClass.ClassId, new SelectList(Model.Classes, "ClassId", "ClassName"), "Select Class", new { @class = "form-control", required = "required", style = "max-width: 30rem" })
+    </div>
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Next</button>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

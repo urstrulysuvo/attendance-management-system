@@ -1,0 +1,60 @@
+﻿@model List<AMSMVC.Models.AttendanceInDetails>
+@{
+    ViewBag.Title = "AttendanceForm";
+    Layout = "~/Views/Shared/_LayoutStaff.cshtml";
+}
+<br />
+<br />
+<br />
+<div class="ui two item stackable tabs menu" style="max-width: 420px">
+    @Html.ActionLink("Back", "Index", "Attendance", null, new { @class = "item" })
+    <a class="active item" data-tab="">Attendance</a>
+</div>
+<div class="container-fluid">
+    @if (!Model.Any())
+    {
+        <text>Attendances are already taken for today</text>
+    }
+    else
+    {
+            using (@Html.BeginForm("Save", "Attendance", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                <table id="students" class="ui celled table" style="width:640px">
+                    <thead style="background-color:lightsteelblue">
+                        <tr style="color:white">
+                            <th>Roll No</th>
+                            <th>Student Name</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(m => m[i].RollNo)
+                                    @Html.HiddenFor(m => m[i].RollNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => m[i].StudentName)
+                                    @Html.HiddenFor(m => m[i].StudentName)
+                                </td>
+                                <td>
+                                    @Html.CheckBoxFor(m => m[i].Status)
+                                    @Html.HiddenFor(m => m[i].StudentId)
+                                    @Html.HiddenFor(m => m[i].SubjectId)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @Html.AntiForgeryToken()
+                <input type="submit" class="btn btn-primary" name="submit" value="Submit" />
+            }
+    }
+</div>
+
+<br />
+<br />
+<br />
+

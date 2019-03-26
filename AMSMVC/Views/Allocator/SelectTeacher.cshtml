@@ -1,0 +1,31 @@
+﻿@model AMSMVC.ViewModels.SelectTeacherViewModel
+@{
+    ViewBag.title = "New Subject Allocation";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<br />
+<br />
+<br />
+<div class="ui four item stackable tabs menu" style="max-width: 840px">
+    @Html.ActionLink("Manage Teachers", "Index", "Teacher", null, new { @class = "item" })
+    @Html.ActionLink("New Teacher", "New", "Teacher", null, new { @class = "item" })
+    @Html.ActionLink("Manage Subject Allocation", "Index", "Allocator", null, new { @class = "item" })
+    <a class="active item" data-tab="">New Subject Allocation</a>
+</div>
+<br />
+
+@using (Html.BeginForm("Select", "Allocator"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Teacher.TeacherId)
+        @Html.DropDownListFor(m => m.Teacher.TeacherId, new SelectList(Model.Teachers, "TeacherId", "TeacherName"), "Select Teacher", new { @class = "form-control", style = "max-width: 30rem" })
+        @Html.ValidationMessageFor(m => m.Teacher.TeacherId)
+    </div>
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Next</button>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,71 @@
+﻿@model IEnumerable<AMSMVC.ViewModels.SubjectAllocatorTableViewModel>
+@{
+    ViewBag.Title = "Manage Subjects Allocation";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<br />
+<br />
+<br />
+<div class="ui four item stackable tabs menu" style="max-width: 840px">
+    @Html.ActionLink("Manage Teachers", "Index", "Teacher", null, new { @class = "item" })
+    @Html.ActionLink("New Teacher", "New", "Teacher", null, new { @class = "item" })
+    <a class="active item" data-tab="">Manage Subjects Allocation</a>
+    @Html.ActionLink("New Subject Allocation", "New", "Allocator", null, new { @class = "item" })
+</div>
+@if (!Model.Any())
+{
+    <text>No Data Found</text>
+}
+else
+{
+    <div class="container-fluid">
+        <table id="students" class="ui celled table" style="width:100%">
+            <thead style="background-color:lightsteelblue">
+                <tr style="color:white">
+                    <th>ID</th>
+                    <th>Teacher Name</th>
+                    <th>Subject 1</th>
+                    <th>Subject 2</th>
+                    <th>Subject 3</th>
+                    <th>Temp Subject</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+    foreach (var allocateSubject in Model)
+    {
+        <tr>
+            <td>@allocateSubject.SubjectAllocator.Id</td>
+            <td>@allocateSubject.Teacher.TeacherName</td>
+            <td>@allocateSubject.Subject[0].SubjectName</td>
+            <td>@allocateSubject.Subject[1].SubjectName</td>
+            <td>@allocateSubject.Subject[2].SubjectName</td>
+            @if(allocateSubject.Subject[3] != null)
+            {
+                <td>@allocateSubject.Subject[3].SubjectName</td>
+            }
+            else
+            {
+                <td>---</td>
+            }
+            <td>@Html.ActionLink("Edit", "Edit", "Allocator", new { id = allocateSubject.SubjectAllocator.Id }, null)</td>
+        </tr>
+    }
+                }
+            </tbody>
+        </table>
+    </div>
+}
+<br />
+<br />
+<br />
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#students').DataTable();
+        });
+    </script>
+}

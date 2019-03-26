@@ -1,0 +1,64 @@
+﻿@model IEnumerable<AMSMVC.Models.Subject>
+@{
+    ViewBag.Title = "Subjects' List";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<br />
+<br />
+<br />
+<div class="ui two item stackable tabs menu" style="max-width: 420px">
+    <a class="active item" data-tab="">Manage Subjects</a>
+    @Html.ActionLink("New Subject", "New", "Subject", null, new { @class = "item" })
+</div>
+@if (!Model.Any())
+{
+    <text>No Data Found</text>
+}
+else
+{
+    <div class="container-fluid">
+        <table id="subjects" class="ui celled table" style="width:100%">
+            <thead style="background-color:lightsteelblue">
+                <tr style="color:white">
+                    <th>Subject ID</th>
+                    <th>Subject Name</th>
+                    <th>Subject Code</th>
+                    <th>Class</th>
+                    <th>Department</th>
+                    <th>Edit/Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+    foreach (var subject in Model)
+    {
+
+        <tr>
+            <td>@subject.SubjectId</td>
+            <td>@subject.SubjectName</td>
+            <td>@subject.SubjectCode</td>
+            <td>@subject.Class.ClassName</td>
+            <td>@subject.Department.DepartmentName</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "Subject", new { id = subject.SubjectId }, null) /
+                @Html.ActionLink("Delete", "Delete", "Subject", new { id = subject.SubjectId }, null)
+            </td>
+        </tr>
+    }
+                }
+            </tbody>
+        </table>
+    </div>
+}
+<br />
+<br />
+<br />
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#subjects').DataTable();
+        });
+    </script>
+}

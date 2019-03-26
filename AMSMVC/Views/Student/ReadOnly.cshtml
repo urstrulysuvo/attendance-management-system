@@ -1,0 +1,57 @@
+﻿@model IEnumerable<AMSMVC.Models.Student>
+@{
+    ViewBag.Title = "Students' List";
+    Layout = "~/Views/Shared/_LayoutStaff.cshtml";
+}
+<br />
+<br />
+<br />
+<div class="ui one item stackable tabs menu" style="max-width: 210px">
+    <a class="active item" data-tab="">Students</a>
+</div>
+@if (!Model.Any())
+{
+    <text>No Data Found</text>
+}
+else
+{
+    <div class="container-fluid">
+        <table id="students" class="ui celled table" style="width:100%">
+            <thead style="background-color:lightsteelblue">
+                <tr style="color:white">
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Roll No</th>
+                    <th>Email ID</th>
+                    <th>Class</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+    foreach (var student in Model)
+    {
+        <tr>
+            <td>@student.StudentId</td>
+            <td>@Html.ActionLink(student.StudentName, "Details", "Student", new { id = student.StudentId }, null)</td>
+            <td>@student.RollNo</td>
+            <td>@student.StudentEmailId</td>
+            <td>@student.Class.ClassName</td>
+        </tr>
+    }
+                }
+            </tbody>
+        </table>
+    </div>
+}
+<br />
+<br />
+<br />
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#students').DataTable();
+        });
+    </script>
+}

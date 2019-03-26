@@ -1,0 +1,80 @@
+﻿@model IEnumerable<AMSMVC.Models.Teacher>
+@{
+    ViewBag.Title = "Teachers' List";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<br />
+<br />
+<br />
+
+<div class="ui four item stackable tabs menu" style="max-width: 840px">
+    <a class="active item" data-tab="">Manage Teachers</a>
+    @Html.ActionLink("New Teacher", "New", "Teacher", null, new { @class = "item" })
+    @Html.ActionLink("Manage Subjects Allocation", "Index", "Allocator", null, new { @class = "item" })
+    @Html.ActionLink("New Subject Allocation", "New", "Allocator", null, new { @class = "item" })
+</div>
+@if (!Model.Any())
+{
+    <text>No Data Found</text>
+}
+else
+{
+    <div class="container-fluid">
+        <table id="teachers" class="ui celled table" style="width:100%">
+            <thead style="background-color:lightsteelblue">
+                <tr style="color:white">
+                    <th>Teachers Id</th>
+                    <th>Teacher Name</th>
+                    <th>Department</th>
+                    <th>Email ID</th>
+                    <th>Edit/Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+    foreach (var teacher in Model)
+    {
+        <tr>
+            <td>@teacher.TeacherId</td>
+            <td>@Html.ActionLink(teacher.TeacherName, "Details", "Teacher", new { id = teacher.TeacherId }, null)</td>
+            <td>@teacher.Department.DepartmentName</td>
+            <td>@teacher.TeacherEmailId</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "Teacher", new { id = teacher.TeacherId }, null) /
+                @Html.ActionLink("Delete", "Delete", "Teacher", new { id = teacher.TeacherId, @class = "js-delete" }, null)
+            </td>
+        </tr>
+    }
+                }
+            </tbody>
+        </table>
+    </div>
+}
+<br />
+<br />
+<br />
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#teachers').DataTable();
+        });
+    </script>
+    <script>
+        $("#teachers").on("click", ".js-delete", function () {
+            var button = $(this);
+
+            bootbox.confirm("Are you sure you want to delete this teacher?", function (result) {
+                if (result) {
+                    $.ajax({
+                        url: "/Teacher/Delete/" + button.attr("id"),
+                        success: function () {
+                            table.row(button.parents("tr")).remove().draw();
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}
